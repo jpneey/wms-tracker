@@ -116,10 +116,14 @@ body {
     transform: translateY(-50%);
     color: #fff;
     height: 44px;
+    z-index: 2;
+}
+.search.date {
+    right: 44px;
 }
 
 .search.date {
-    pointer-events: none;
+    pointer-events: all;
 }
 
 .search-field {
@@ -528,15 +532,18 @@ input[type="date"]::-webkit-clear-button {
 .qs-datepicker-container {
     font-family: 'Poppins', sans-serif !important;
     font-size: 13px;
-    position: absolute !important;
-    top: 10px !important;
-    left: 50% !important;
-    transform: translateX(-50%);
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    transform: none !important;
     box-shadow: none !important;
     border: none !important;
-    animation: enter-calendar 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     z-index: 99999 !important;
-    border-radius: 13px !important;
+    border-radius: 0 !important;
+    border-top-left-radius: 30px !important;
+    border-top-right-radius: 30px !important;
+    width: 100% !important;
 }
 
 .qs-controls {
@@ -556,11 +563,11 @@ input[type="date"]::-webkit-clear-button {
 
 @keyframes enter-calendar {
     0% {
-        transform: translateX(-50%) translateY(10px);
+        transform: translateY(10px) !important;
         opacity: 0;
     }
     100% {
-        transform: translateX(-50%) translateY(0px);
+        transform: translateY(0px) !important;
         opacity: 1;
     }
 }
@@ -579,3 +586,108 @@ input[type="date"]::-webkit-clear-button {
     transform: translate(-50%, -50%);
     width: 100%;
 }
+
+#single-page {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 57px;
+    z-index: 999;
+}
+
+.bottom-sheet {
+    position: absolute;
+    width: 100%;
+    background: #fff;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    padding: 60px 0 15px;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    max-height: 60vh;
+    overflow: auto;
+}
+
+.bottom-sheet-handle,
+.bottom-sheet::before {
+    content: ' ';
+    display: block;
+    height: 4px;
+    width: 80px;
+    background: #acacac;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 6px
+}
+
+.no-glaze .loading:after {
+    display: none;
+}
+
+.lds-ellipsis {
+    display: inline-block;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+  }
+  .lds-ellipsis div {
+    position: absolute;
+    top: 36px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+  }
+  @keyframes lds-ellipsis1 {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes lds-ellipsis3 {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  @keyframes lds-ellipsis2 {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(24px, 0);
+    }
+}
+  

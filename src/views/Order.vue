@@ -11,43 +11,69 @@
   <div v-if="items.length > 0 && !loading" class="enter">
     <div class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom">
       <div class="row">
-        <div class="col col-12">
-          <p class="h4 fw-bold mt-5 mb-0">{{ items[0].slip_no }}</p>
+        <div class="col col-12 mt-5">
+          <p class="h4 fw-bold mt-0 mb-0">{{ items[0].slip_no }}</p>
           <p class="mt-1 mb-4 text-secondary">{{ items[0].customer_address }}</p>
+          <p class="text-small"><small :class="footerClass(items[0].tracking_status)">{{ footerActionText(items[0].tracking_status) }}</small></p>
         </div>
       </div>
     </div>
-    <div class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom">
+    <div class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom text-small">
       <div class="row">
         <div class="col col-6">
           <p class="my-3">
-            <small class="text-secondary">Slip order date</small><br>
+            <span class="text-secondary">Slip order date</span><br>
             <span class="fw-bold">{{ formatDate(items[0].slip_order_date) }}</span>
           </p>
         </div>
         <div class="col col-6 text-end">
           <p class="my-3">
-            <small class="text-secondary">Shipment date</small><br>
+            <span class="text-secondary">Shipment date</span><br>
             <span class="fw-bold">{{ formatDate(items[0].ship_date) }}</span>
           </p>
         </div>
       </div>
     </div>
-    <div class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom">
+    <div class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom text-small">
       <div class="row">
         <div class="col col-12">
           <div class="my-3 d-block w-100 position-relative">
-            <small class="text-secondary">To be received by</small><br>
-            <span class="fw-bold">{{ items[0].detrack_receivedby }}</span>
-            <i @click="$router.back()" class="material-icons bg-black text-white p-1 rounded position-absolute go-back">arrow_back</i>
+            <span class="text-secondary">Bill To</span><br>
+            <span>{{ items[0].bill_to }}</span>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom text-small">
+      <div class="row">
+        <div class="col col-12">
+          <div class="my-3 d-block w-100 position-relative">
+            <span class="text-secondary">Customer Address</span><br>
+            <span>{{ items[0].customer_address }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom text-small">
+      <div class="row">
+        <div class="col col-6">
+          <p class="my-3">
+            <span class="text-secondary">Reference</span><br>
+            <span>#{{ items[0].reference }}</span>
+          </p>
+        </div>
+        <div class="col col-6 text-end">
+          <p class="my-3">
+            <span class="text-secondary">Sales Person</span><br>
+            <span>{{ items[0].sales_person }}</span>
+          </p>
         </div>
       </div>
     </div>
     <div v-if="!deliver" class="d-block w-100 container bg-white position-relative overflow-x-hidden">
       <div class="row">
         <div class="col col-12">
-          <button @click="initDeliver()" class="btn btn-sm px-4 py-3 my-4 d-block w-100 bg-black text-white">Update Order</button>
+          <button @click="initDeliver()" class="btn btn-sm px-4 py-3 my-3 d-block w-100 bg-black text-white">Update Order</button>
         </div>
       </div>
     </div>
@@ -96,6 +122,7 @@ export default {
     })
     request.done(data => {
       items.value = data.data
+      console.log(data.data)
       setTimeout(() => {
         loading.value = false
       }, 1000)
@@ -118,6 +145,26 @@ export default {
     },
     reload: function () {
       location.reload()
+    },
+    footerClass (type) {
+      var className = 'bg-primary px-3 py-1 text-white rounded'
+      type = type.toLowerCase().trim()
+      switch (type) {
+        case 'failed':
+          className = 'bg-danger px-3 py-1 text-white rounded'
+          break
+      }
+      return className
+    },
+    footerActionText (type) {
+      var text = 'Pending'
+      type = type.toLowerCase().trim()
+      switch (type) {
+        case 'failed':
+          text = 'Failed'
+          break
+      }
+      return text
     }
   }
 }

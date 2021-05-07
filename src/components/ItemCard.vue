@@ -1,30 +1,29 @@
 <template>
   <div class="mt-4 mb-3 position-relative search-wrapper border rounded enter">
-    <input type="search" name="search" class="search-field" v-model="search" placeholder="Enter tracking number" />
     <i class="material-icons search bg-black">search</i>
+    <input type="search" name="search" class="search-field" v-model="search" placeholder="Enter tracking number" />
   </div>
-  <template v-for="item in filteredItems" :key="item.detrack_id">
-    <div class="pt-3 pb-0 d-block w-100 bg-white item mb-3 overflow-hidden border rounded orders enter">
-      <div class="row">
-        <div class="col col-6 px-4">
-          <p class="mb-0 text-uppercase sub-text">{{ formatDate(item.slip_order_date) }}</p>
-        </div>
-        <div class="col col-6 text-end px-4">
-          <p class="mb-0 text-uppercase sub-text d-none">{{ footerActionText(item.order_status) }}</p>
-        </div>
-        <div class="col col-12 px-4">
-          <p class="my-2 mb-3 text-small text-secondary">{{ item.customer_address || 'No data available' }}</p>
-        </div>
-        <div class="col col-12">
-          <router-link :to="'/order/' + item.detrack_id" class="text-decoration-none text-body">
-            <div :class="'p-3 item-footer position-relative ' + footerClass(item.order_status)">
-              <p class="mb-0 text-uppercase sub-text position-relative text-decoration-none">{{ item.slip_no }}</p>
-              <span class="open-order text-decoration-none material-icons text-secondary">arrow_forward</span>
-            </div>
-          </router-link>
+  <template v-for="item in filteredItems" :key="item.slip_id">
+    <router-link :to="'/order/' + item.slip_id" class="text-decoration-none">
+      <div class="pt-3 pb-0 d-block w-100 bg-white item mb-3 overflow-hidden border rounded orders enter">
+        <div class="row">
+          <div class="col col-5 px-4">
+            <p class="mb-0 text-uppercase sub-text text-body">#{{ item.slip_no }}</p>
+          </div>
+          <div class="col col-7 text-end px-4">
+            <p class="mb-0 sub-text fw-normal">
+              <small class="" :class="footerClass(item.tracking_status)">{{ footerActionText(item.tracking_status) }}</small>
+            </p>
+          </div>
+          <div class="col col-12 px-4 mt-2">
+            <p class="mt-2 mb-3 text-small">
+              <span>{{ formatDate(item.slip_order_date) }}</span>
+              <span class="text-secondary ps-2">{{ item.customer_address || 'No data available' }}</span>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </router-link>
   </template>
   <div v-if="filteredItems.length <= 0" class="pt-3 pb-0 d-block w-100 bg-white item mb-4 rounded border overflow-hidden orders enter">
     <div class="row">
@@ -64,7 +63,7 @@ export default {
     filteredItems () {
       const search = this.search.toLowerCase().trim()
       if (!search) return this.items
-      return this.items.filter(c => c.ship_to.toLowerCase().indexOf(search) > -1 || c.detrack_slip.toLowerCase().indexOf(search) > -1 || c.detrack_date.toLowerCase().indexOf(search) > -1)
+      return this.items.filter(c => c.ship_to.toLowerCase().indexOf(search) > -1 || c.slip_no.toLowerCase().indexOf(search) > -1 || c.slip_order_date.toLowerCase().indexOf(search) > -1)
     }
   },
   methods: {
@@ -76,21 +75,21 @@ export default {
       return pre.isValid() ? pre.format('MMMM D YYYY') : ''
     },
     footerClass (type) {
-      var className = 'bg-light'
+      var className = 'bg-primary px-3 py-1 text-white rounded'
       type = type.toLowerCase().trim()
       switch (type) {
-        case 'deliver':
-          className = ''
+        case 'failed':
+          className = 'bg-danger px-3 py-1 text-white rounded'
           break
       }
       return className
     },
     footerActionText (type) {
-      var text = 'update order'
+      var text = 'Pending'
       type = type.toLowerCase().trim()
       switch (type) {
-        case 'deliver':
-          text = 'deliver to'
+        case 'failed':
+          text = 'Failed'
           break
       }
       return text
@@ -103,7 +102,7 @@ export default {
           showAllDates: true,
           onSelect: (instance, date) => {
             var pre = moment(date)
-            date = pre.isValid() ? pre.format('YYYY-MM-D') : ''
+            date = pre.isValid() ? pre.format('YYYY-MM-DD') : ''
             this.search = date
             instance.remove()
             this.filterDate = !this.filterDate

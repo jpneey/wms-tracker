@@ -14,11 +14,12 @@
   </div>
   <Sidebar :state="state" v-on:toggleSideBar="toggleSidebar()" />
   <router-view />
-  <Confirm v-if="exiting" v-on:yes="exitApp(true)" v-on:no="exitApp(false)" :title="'Quit Application'" :text="'unsaved changes will not be saved'" :yes="'Exit app'" />
+  <Confirm v-if="exiting" v-on:yes="exitApp(true)" v-on:no="exitApp(false)" :title="'Quit Application'" :text="'unsaved changes will not be saved'" :yes="'Log out'" />
 </template>
 <script>
 import Sidebar from './components/Sidebar.vue'
 import Confirm from './components/Confirm.vue'
+import { _logOut } from './services/auth'
 
 export default {
   name: 'app',
@@ -46,6 +47,7 @@ export default {
         this.exiting = false
         return
       }
+      _logOut()
       if (navigator.app) {
         navigator.app.exitApp()
       } else if (navigator.device) {
@@ -53,6 +55,7 @@ export default {
       } else {
         window.close()
       }
+      location.reload()
     },
     toggleSidebar: function () {
       this.state = !this.state

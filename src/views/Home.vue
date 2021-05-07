@@ -7,13 +7,14 @@
       </div>
     </div>
   </div>
-  <Empty v-if="!items.length && !loading" :title="'Your\'e all done!'" :description="'It seems that there are no pending deliveries'" />
+  <Empty v-if="!items.length && !loading" :title="'Your\'e all done!'" :description="'There are no pending deliveries assigned to you'" />
   <Alert v-if="showAlert" v-on:toggleAlert="reload()" />
 </template>
 
 <script>
 import $ from 'jquery'
 import _ from '../services/utility.js'
+import { _isAuth } from '../services/auth.js'
 import ItemCard from '../components/ItemCard.vue'
 import LoadingCard from '../components/LoadingCard.vue'
 import { ref } from 'vue'
@@ -31,8 +32,9 @@ export default {
     const items = ref([])
     const loading = ref(true)
     const showAlert = ref(false)
+    const userId = _isAuth()
     const request = $.ajax({
-      url: _.C.API_ALL,
+      url: _.C.API_ALL + '&_=' + userId,
       method: 'get'
     })
     request.done(data => {
