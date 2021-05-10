@@ -171,7 +171,8 @@ export default {
       })
 
       request.fail(function (jqXHR, textStatus) {
-        alert('failed')
+        alert('The server can\'t handle your request. Please try again later.')
+        location.reload()
       })
     }
   }
