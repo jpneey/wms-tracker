@@ -14,7 +14,10 @@
         <div class="col col-12 mt-5">
           <p class="h4 fw-bold mt-0 mb-0">{{ items[0].slip_no }}</p>
           <p class="mt-1 mb-4 text-secondary">{{ items[0].customer_address }}</p>
-          <p class="text-small"><small :class="footerClass(items[0].tracking_status)">{{ footerActionText(items[0].tracking_status) }}</small></p>
+          <p class="text-small">
+            <small :class="footerClass(items[0].tracking_status)">{{ footerActionText(items[0].tracking_status) }}</small>
+            <small class="ms-1" :class="delayClass(getDelay(items[0].ship_date))">{{ getDelay(items[0].ship_date) }} day(s) delayed</small>
+          </p>
         </div>
       </div>
     </div>
@@ -81,7 +84,7 @@
   <div v-if="!items.length && !loading">
     <Empty :title="'Hey there'" :description="'Are you lost? There are no pending orders here'" />
   </div>
-  <DeliveryForm v-if="deliver" :state="deliver" v-on:cancelDeliver="initDeliver()" />
+  <DeliveryForm v-if="deliver" :orderid="parseInt(orderid)" :userid="parseInt(userId)" :state="deliver" v-on:cancelDeliver="initDeliver()" />
   <Alert v-if="alertShow" v-on:toggleAlert="reload()" />
 </template>
 
@@ -89,6 +92,7 @@
 import $ from 'jquery'
 import _ from '../services/utility.js'
 import { ref } from 'vue'
+import { _isAuth } from '../services/auth.js'
 import moment from 'moment'
 import LoadingCard from '../components/LoadingCard.vue'
 import DeliveryForm from '../components/DeliveryForm.vue'
@@ -116,13 +120,13 @@ export default {
     const alertTitle = ref('')
     const alertText = ref('')
     const alertButton = ref('')
+    const userId = _isAuth()
     const request = $.ajax({
-      url: _.C.API_SINGLE + props.orderid,
+      url: _.C.API_SINGLE + props.orderid + '&uid=' + userId,
       method: 'get'
     })
     request.done(data => {
       items.value = data.data
-      console.log(data.data)
       setTimeout(() => {
         loading.value = false
       }, 1000)
@@ -133,7 +137,7 @@ export default {
       items.value = []
       alertShow.value = true
     })
-    return { items, loading, alertShow, alertButton, alertText, alertTitle }
+    return { items, loading, alertShow, alertButton, alertText, alertTitle, userId }
   },
   methods: {
     formatDate (date) {
@@ -165,6 +169,18 @@ export default {
           break
       }
       return text
+    },
+    getDelay (shipDate) {
+      var main = moment(shipDate, 'YYYY MM DD')
+      var today = moment()
+      return today.diff(main, 'days')
+    },
+    delayClass (type) {
+      var className = 'd-none'
+      if (type) {
+        className = 'bg-warning px-3 py-1 text-white rounded'
+      }
+      return className
     }
   }
 }

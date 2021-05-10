@@ -17,7 +17,8 @@
           </div>
           <div class="col col-12 px-4 mt-2">
             <p class="mt-2 mb-3 text-small">
-              <span>{{ formatDate(item.slip_order_date) }}</span>
+              <span>{{ formatDate(item.ship_date) }}</span>
+              <small class="ms-1" :class="delayClass(getDelay(item.ship_date))">&mdash;<b>{{ getDelay(item.ship_date) }} day(s) delayed</b></small>
               <span class="text-secondary ps-2">{{ item.customer_address || 'No data available' }}</span>
             </p>
           </div>
@@ -75,12 +76,24 @@ export default {
       return pre.isValid() ? pre.format('MMMM D YYYY') : ''
     },
     footerClass (type) {
-      var className = 'bg-primary px-3 py-1 text-white rounded'
+      var className = 'bg-primary px-2 py-1 text-white rounded'
       type = type.toLowerCase().trim()
       switch (type) {
         case 'failed':
-          className = 'bg-danger px-3 py-1 text-white rounded'
+          className = 'bg-danger px-2 py-1 text-white rounded'
           break
+      }
+      return className
+    },
+    getDelay (shipDate) {
+      var main = moment(shipDate, 'YYYY MM DD')
+      var today = moment()
+      return today.diff(main, 'days')
+    },
+    delayClass (type) {
+      var className = 'd-none'
+      if (type) {
+        className = 'text-danger'
       }
       return className
     },

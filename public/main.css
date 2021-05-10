@@ -610,7 +610,7 @@ input[type="date"]::-webkit-clear-button {
     bottom: 0;
     left: 0;
     z-index: 999;
-    max-height: 60vh;
+    max-height: 80vh;
     overflow: auto;
 }
 
@@ -690,4 +690,16 @@ input[type="date"]::-webkit-clear-button {
       transform: translate(24px, 0);
     }
 }
-  
+
+.abs-centered.spin {
+    transform: translate(-50%, -50%) rotate(0deg);
+    animation: spin 0.3s linear infinite;
+}
+@keyframes spin {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }

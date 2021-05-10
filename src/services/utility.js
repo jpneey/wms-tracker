@@ -4,6 +4,7 @@ export default {
     API_LOGIN: 'http://192.168.101.88/wms/controller/controller.detrack.php?mode=login',
     API_SINGLE: 'http://192.168.101.88/wms/controller/controller.detrack.php?mode=single&id=',
     API_TEST: 'http://192.168.101.88/wms/controller/controller.detrack.php?mode=test',
+    API_UPDATE: 'http://192.168.101.88/wms/controller/controller.detrack.php?mode=update',
     AUTH: 'wms-app-auth'
   }
 }

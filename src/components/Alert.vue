@@ -5,7 +5,8 @@
       <div class="title">{{ title }}</div>
       <div class="text">{{ text }}</div>
     </div>
-    <div class="button" @click="emit()">{{ button }}</div>
+    <div v-if="!isLoading" class="button" @click="emit()">{{ button }}</div>
+    <div v-if="isLoading" class="button"><span style="opacity:0">foo</span><i class="abs-centered material-icons spin">refresh</i></div>
   </div>
 </template>
 
@@ -27,7 +28,17 @@ export default {
       default: 'Reload app'
     }
   },
+  data () {
+    return {
+      isLoading: false
+    }
+  },
   emits: ['toggleAlert'],
+  created () {
+    if (this.button === '_LOADING_') {
+      this.isLoading = true
+    }
+  },
   methods: {
     emit: function () {
       this.$emit('toggleAlert', this.$event)

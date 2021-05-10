@@ -18,7 +18,6 @@ export function _logIn (done, fail, credentials) {
       __: credentials.pass
     }
   })
-  console.log(credentials.name + ' : ' + credentials.pass)
   request.done(data => {
     const authId = data.auth_id
     if (authId) {

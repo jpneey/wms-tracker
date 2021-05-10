@@ -5,7 +5,6 @@ import Login from '../views/Login.vue'
 import { _isAuth } from '../services/auth'
 
 const isAuth = _isAuth()
-console.log(isAuth)
 
 const routes = [
   {
