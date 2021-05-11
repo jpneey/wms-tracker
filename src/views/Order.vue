@@ -1,6 +1,6 @@
 <template>
   <div class="enter" v-if="loading" >
-    <div class="d-block w-100 container pb-3 bg-white position-relative overflow-x-hidden border-bottom">
+    <div class="d-block w-100 container pb-3 bg-white position-relative overflow-x-hidden">
       <div class="row">
         <div class="col col-12">
           <LoadingCard :cardCount="1" />
@@ -8,7 +8,7 @@
       </div>
     </div>
   </div>
-  <div v-if="items.length > 0 && !loading" class="enter">
+  <div v-if="items.length > 0 && !loading" class="enter inmed-border-bottom">
     <div class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom">
       <div class="row">
         <div class="col col-12 mt-5">

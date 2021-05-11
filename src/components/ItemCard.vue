@@ -1,11 +1,11 @@
 <template>
-  <div class="mt-4 mb-3 position-relative search-wrapper border rounded enter">
+  <div class="mt-4 mb-3 position-relative search-wrapper shadow-sm rounded enter">
     <i class="material-icons search bg-black">search</i>
-    <input type="search" name="search" class="search-field" v-model="search" placeholder="Enter tracking number" />
+    <input type="search" name="search" class="search-field fw-bold" v-model="search" placeholder="Enter tracking number" />
   </div>
   <template v-for="item in filteredItems" :key="item.slip_id">
     <router-link :to="'/order/' + item.slip_id" class="text-decoration-none">
-      <div class="pt-3 pb-0 d-block w-100 bg-white item mb-3 overflow-hidden border rounded orders enter">
+      <div class="pt-3 pb-0 d-block w-100 bg-white item mb-3 overflow-hidden shadow-sm rounded orders enter">
         <div class="row">
           <div class="col col-5 px-4">
             <p class="mb-0 text-uppercase sub-text text-body">#{{ item.slip_no }}</p>
@@ -39,7 +39,7 @@
       </div>
     </div>
   </div>
-  <label id="date-filter" @click="filterByDate()" class="fab material-icons bg-black text-white shadow">date_range</label>
+  <label id="date-filter" @click="filterByDate()" class="fab material-icons bg-black text-white shadow-sm">date_range</label>
   <div class="overlay w-100 position-fixed on z-top" @click="filterByDate()" v-if="filterDate"></div>
 </template>
 

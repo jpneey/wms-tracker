@@ -14,7 +14,7 @@ html, body {
 #app {
     max-width: 600px;
     margin: auto;
-    background: #fff;
+    background: #f1f1f1;
     min-height: 100%;
 }
 
@@ -449,7 +449,12 @@ input[type="date"]::-webkit-clear-button {
 }
 
 .form-control {
-    font-size: 14px;
+    font-size: 13px;
+    background: #f1f1f1 !important;
+    border: none !important;
+    padding: 13px 18px;
+    border-radius: 0;
+    box-shadow: none !important;
 }
 
 .alert * {
@@ -496,7 +501,7 @@ input[type="date"]::-webkit-clear-button {
 	height: 44px;
 	line-height: 44px;
 	font-size: 17px;
-	color: #007aff;
+	color: #ff8800;
 	border-radius: 0 0 13px 13px;
 	overflow: hidden;
 	cursor: pointer;
@@ -711,4 +716,8 @@ input[type="date"]::-webkit-clear-button {
     to {
       transform: translate(-50%, -50%) rotate(360deg);
     }
-  }
+}
+
+.inmed-border-bottom .border-bottom {
+    border-bottom: 5px solid #f1f1f1 !important;
+}
