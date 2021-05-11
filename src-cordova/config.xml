@@ -25,5 +25,5 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarBackgroundColor" value="#FFFFFF" />
+    <preference name="StatusBarBackgroundColor" value="#FF8800" />
 </widget>

@@ -423,7 +423,7 @@ input[type="date"]::-webkit-clear-button {
 }
 
 .bg-black {
-    background-color: #000;
+    background-color: #f80;
 }
 .enter,
 .delivery-form {
@@ -541,8 +541,8 @@ input[type="date"]::-webkit-clear-button {
     border: none !important;
     z-index: 99999 !important;
     border-radius: 0 !important;
-    border-top-left-radius: 30px !important;
-    border-top-right-radius: 30px !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
     width: 100% !important;
 }
 
@@ -556,9 +556,18 @@ input[type="date"]::-webkit-clear-button {
     font-size: 13px;
 }
 
+.qs-controls,
 .qs-current {
-    background: #d3d3d3;
+    background: #ff8800 !important;
+    color: #fff;
     text-decoration: none !important;
+}
+
+.qs-arrow.qs-left:after {
+    border-right-color: #fff !important;
+}
+.qs-arrow.qs-right:after {
+    border-left-color: #fff !important;
 }
 
 @keyframes enter-calendar {
