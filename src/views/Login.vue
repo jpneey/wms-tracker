@@ -122,11 +122,16 @@ export default {
       this.showAlert = false
       this.showConfirm = true
       this.title = 'Error: ' + error.code
-      this.description = 'Unable to get device location. ' + error.message
+      this.description = 'Unable to get device location. Please check if gps is on and you are connected on a reliable internet connection. Error:' + error.message
       this.button = 'Settings'
     },
     openSettings: function () {
-      alert('asdasdsad')
+      window.cordova.plugins.settings.open('location', function () {
+        console.log('opened settings')
+      }, function () {
+        this.title = 'Sorry about that'
+        this.description = 'We\'re unable to open the location settings of you phone.'
+      })
     }
   }
 }

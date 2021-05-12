@@ -114,6 +114,10 @@ export default {
         return
       }
       if (this.status === 'delivered') {
+        if (this.receivedby === '') {
+          this.handleError('`Received by field` can\'t be empty')
+          return
+        }
         if (this.lat === 0 || this.long === 0) {
           this.getLocation()
           return
@@ -201,8 +205,9 @@ export default {
     errorCallback: function (error) {
       this.showAlert = true
       this.alertTitle = 'Error: ' + error.code
-      this.alertText = 'Unable to get device location. ' + error.message
+      this.alertText = 'Unable to get device location. Please check if gps is on and you are connected on a reliable internet connection. Error: ' + error.message
       this.alertButton = 'Try again'
+      window.cordova.plugins.settings.open('location')
     }
   }
 }

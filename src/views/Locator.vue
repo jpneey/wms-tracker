@@ -7,10 +7,12 @@
       <LoadingCard />
     </div>
   </div>
+  <Confirm v-if="showConfirm" v-on:yes="this.openSettings()" v-on:no="this.reload()" :title="title" :text="description" :yes="button" :no="'Reload'" />
 </template>
 
 <script>
 import Map from '../components/Map.vue'
+import Confirm from '../components/Confirm.vue'
 import LoadingCard from '../components/LoadingCard.vue'
 
 export default {
@@ -19,7 +21,11 @@ export default {
     return {
       long: 0,
       lat: 0,
-      locationReady: false
+      locationReady: false,
+      showConfirm: false,
+      title: '',
+      description: '',
+      button: ''
     }
   },
   props: {
@@ -30,7 +36,8 @@ export default {
   },
   components: {
     Map,
-    LoadingCard
+    LoadingCard,
+    Confirm
   },
   mounted () {
     this.getLocation()
@@ -47,7 +54,21 @@ export default {
       }, 1000)
     },
     errorCallback: function (error) {
-      alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n')
+      this.showConfirm = true
+      this.title = 'Error: ' + error.code
+      this.description = 'Unable to get device location. Please check if gps is on and you are connected on a reliable internet connection. Error:' + error.message
+      this.button = 'Settings'
+    },
+    reload: function () {
+      window.location.reload()
+    },
+    openSettings: function () {
+      window.cordova.plugins.settings.open('location', function () {
+        console.log('opened settings')
+      }, function () {
+        this.title = 'Sorry about that'
+        this.description = 'We\'re unable to open the location settings of you phone.'
+      })
     }
   }
 }
