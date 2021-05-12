@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Order from '../views/Order.vue'
 import Login from '../views/Login.vue'
+import Locator from '../views/Locator.vue'
 import { _isAuth } from '../services/auth'
 
 const isAuth = _isAuth()
@@ -26,6 +27,18 @@ const routes = [
     path: '/order/:orderid',
     name: 'Delivery',
     component: Order,
+    props: true
+  },
+  {
+    path: '/locator/:query',
+    name: 'Locator',
+    component: Locator,
+    props: true
+  },
+  {
+    path: '/locator',
+    name: 'Location',
+    component: Locator,
     props: true
   }
 ]

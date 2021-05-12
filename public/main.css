@@ -3,7 +3,7 @@
 
 html, body {
     font-family: 'Poppins', sans-serif;
-    background: #f5f5f5;
+    background: #fff;
     font-size: 17px;
     color: #000;
     font-weight: 500;
@@ -14,7 +14,7 @@ html, body {
 #app {
     max-width: 600px;
     margin: auto;
-    background: #f1f1f1;
+    background: #fff;
     min-height: 100%;
 }
 
@@ -108,47 +108,6 @@ body {
     letter-spacing: 1px;
 }
 
-.search {
-    padding: 10px;
-    right: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #fff;
-    height: 44px;
-    z-index: 2;
-}
-.search.date {
-    right: 44px;
-}
-
-.search.date {
-    pointer-events: all;
-}
-
-.search-field {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 44px;
-    border: white;
-    width: 100% !important;
-    padding: 0 15px;
-    font-size: 12px;
-    outline: none !important;
-    background: #fff !important;
-    border: none !important;
-}
-
-.search-wrapper {
-    margin-bottom: -20px;
-    height: 44px;
-    display: block;
-    padding: 0;
-    width: 100%;
-    overflow: hidden;
-}
-
 .item {
     display: block;
 }
@@ -189,6 +148,11 @@ body {
     left: auto;
     right: 1rem;
     transform: translateY(-50%);
+}
+
+.nav.secondary {
+    height: 60px;
+    border-bottom: none !important;
 }
 
 #loading {
@@ -344,10 +308,11 @@ input[type="date"]::-webkit-clear-button {
     transition: 0.3s ease-in-out;
     transform: none;
     max-width: 320px;
+    border-right: 1px solid #dee2e6!important;
 }
 
 #sidebar.on {
-    transition: 0.3s ease-in-out;
+    transition: 0.2s ease-in-out;
     left: 0;
 }
 
@@ -368,7 +333,7 @@ input[type="date"]::-webkit-clear-button {
     z-index: 997;
     height: 100%;
     opacity: 0;
-    background: rgba(0,0,0,0.3);
+    background: hsla(0,0%,100%,0.8);
     transition: all 0.3s;
     pointer-events: none;
 }
@@ -480,6 +445,8 @@ input[type="date"]::-webkit-clear-button {
 	z-index: 998;
 	background-color: rgba(255, 255, 255);
     animation: enter-page 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    box-shadow: 0px 0px 5px rgb(0 0 0 / 10%);
+    border: 1px solid #dee2e6!important;
 }
 
 .alert .inner {
@@ -498,8 +465,7 @@ input[type="date"]::-webkit-clear-button {
 
 .alert .button {
 	position: relative;
-	height: 44px;
-	line-height: 44px;
+    padding: 10px;
 	font-size: 17px;
 	color: #ff8800;
 	border-radius: 0 0 13px 13px;
@@ -515,7 +481,7 @@ input[type="date"]::-webkit-clear-button {
 	height: 1px;
 	width: 100%;
 	display: block;
-	background-color: #c4c4c4;
+	background-color: #dee2e6;
 	z-index: 999;
 }
 
@@ -526,7 +492,7 @@ input[type="date"]::-webkit-clear-button {
 }
 
 .alert .button.left {
-	border-right: 1px solid #c4c4c4;
+	border-right: 1px solid #dee2e6;
     border-bottom-right-radius: 0;
 }
 
@@ -611,7 +577,7 @@ input[type="date"]::-webkit-clear-button {
     left: 50%;
     transform: translate(-50%, -50%);
     padding-top: 57px;
-    z-index: 999;
+    z-index: 997;
 }
 
 .bottom-sheet {
@@ -626,6 +592,8 @@ input[type="date"]::-webkit-clear-button {
     z-index: 999;
     max-height: 80vh;
     overflow: auto;
+    box-shadow: 0px 1px 15px rgb(0 0 0 / 10%);
+    border-top: 1px solid #dee2e6!important;
 }
 
 .bottom-sheet-handle,

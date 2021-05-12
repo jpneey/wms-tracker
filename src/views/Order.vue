@@ -1,4 +1,11 @@
 <template>
+  <div v-if="items.length > 0 && !loading" class="position-fixed nav secondary d-block w-100 border-bottom container bg-white">
+    <div id="nav" class="row row-cols-3 m-0">
+      <div class="col">
+        <span @click="$router.go(-1)" class="text-decoration-none material-icons align-middle abs-centered abs-left">arrow_back</span>
+      </div>
+    </div>
+  </div>
   <div class="enter" v-if="loading" >
     <div class="d-block w-100 container pb-3 bg-white position-relative overflow-x-hidden">
       <div class="row">

@@ -1,12 +1,17 @@
 <template>
-  <div class="mt-4 mb-3 position-relative search-wrapper shadow-sm rounded enter">
-    <i class="material-icons search bg-black">search</i>
-    <input type="search" name="search" class="search-field fw-bold" v-model="search" placeholder="Enter tracking number" />
+  <div class="pt-3 pb-0 d-block w-100 bg-white item mb-3 orders enter">
+    <div class="row border-bottom">
+      <div class="col col-12 px-4">
+        <div class="input-group input-group-sm mb-3">
+          <input v-model="search" type="text" class="form-control py-2 px-3" placeholder="Enter tracking number" />
+        </div>
+      </div>
+    </div>
   </div>
   <template v-for="item in filteredItems" :key="item.slip_id">
     <router-link :to="'/order/' + item.slip_id" class="text-decoration-none">
-      <div class="pt-3 pb-0 d-block w-100 bg-white item mb-3 overflow-hidden shadow-sm rounded orders enter">
-        <div class="row">
+      <div class="pt-3 pb-0 d-block w-100 bg-white item mb-3 orders enter">
+        <div class="row border-bottom">
           <div class="col col-5 px-4">
             <p class="mb-0 text-uppercase sub-text text-body">#{{ item.slip_no }}</p>
           </div>
@@ -26,15 +31,14 @@
       </div>
     </router-link>
   </template>
-  <div v-if="filteredItems.length <= 0" class="pt-3 pb-0 d-block w-100 bg-white item mb-4 rounded border overflow-hidden orders enter">
+  <div v-if="filteredItems.length <= 0" class="pt-3 pb-0 d-block w-100 bg-white item mb-3 overflow-hidden border-bottom orders enter">
     <div class="row">
       <div class="col col-12 px-4">
-        <p class="my-2 mb-3 text-small">No data available related to: <b>{{ search }}</b></p>
+        <p class="my-2 mb-3 text-small">It seems that there are no deliverables assigned to you that matches `<b>{{ search }}</b>`</p>
       </div>
       <div class="col col-12">
         <div class="p-3 item-footer position-relative bg-light">
-          <p class="mb-0 text-uppercase sub-text position-relative">Clear filter</p>
-          <i class="open-order text-decoration-none material-icons" @click="clearSearch()">close</i>
+          <button @click="clearSearch()" class="btn btn-primary btn-sm">Show All</button>
         </div>
       </div>
     </div>
@@ -64,7 +68,7 @@ export default {
     filteredItems () {
       const search = this.search.toLowerCase().trim()
       if (!search) return this.items
-      return this.items.filter(c => c.ship_to.toLowerCase().indexOf(search) > -1 || c.slip_no.toLowerCase().indexOf(search) > -1 || c.slip_order_date.toLowerCase().indexOf(search) > -1)
+      return this.items.filter(c => c.ship_to.toLowerCase().indexOf(search) > -1 || c.slip_no.toLowerCase().indexOf(search) > -1 || c.ship_date.toLowerCase().indexOf(search) > -1)
     }
   },
   methods: {

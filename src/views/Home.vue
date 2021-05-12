@@ -1,8 +1,8 @@
 <template>
-  <div class="d-block w-100 container position-relative overflow-x-hidden">
+  <div class="d-block bg-white w-100 container position-relative overflow-x-hidden inmed-border-bottom">
     <div class="row">
       <LoadingCard v-if="loading" />
-      <div class="col col-12">
+      <div class="col col-12 px-0">
         <ItemCard v-if="items.length > 0 && !loading" :item="items" />
       </div>
     </div>

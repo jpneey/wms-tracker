@@ -28,17 +28,15 @@ export default {
       default: 'Reload app'
     }
   },
-  data () {
-    return {
-      isLoading: false
+  computed: {
+    isLoading: function () {
+      if (this.button === '_LOADING_') {
+        return true
+      }
+      return false
     }
   },
   emits: ['toggleAlert'],
-  created () {
-    if (this.button === '_LOADING_') {
-      this.isLoading = true
-    }
-  },
   methods: {
     emit: function () {
       this.$emit('toggleAlert', this.$event)

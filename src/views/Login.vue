@@ -1,12 +1,12 @@
 <template>
   <div id="single-page">
-    <div class="d-block w-100 container position-relative overflow-x-hidden">
+    <div v-if="!locationReady" class="d-block w-100 container position-relative overflow-x-hidden">
       <div class="row">
         <LoadingCard />
       </div>
     </div>
-    <div class="overlay w-100 position-fixed on"></div>
-    <div class="bottom-sheet">
+    <Map :long="long" :lat="lat" v-if="locationReady" />
+    <div class="bottom-sheet" style="z-index: 1001" v-if="locationReady">
       <div class="d-block w-100 container position-relative overflow-x-hidden">
         <div class="row">
           <div class="col col-12">
@@ -21,8 +21,7 @@
           </div>
           <div class="col col-12">
             <button @click="login()" class="btn btn-sm d-block w-100 py-3 text-white px-4 bg-black mb-2 position-relative">
-              <span>{{ (loading) ? '&nbsp;' : 'Login' }}</span>
-              <div v-if="loading" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+              Login
             </button>
           </div>
         </div>
@@ -36,6 +35,7 @@
 import LoadingCard from '../components/LoadingCard.vue'
 import Alert from '../components/Alert.vue'
 import router from '@/router'
+import Map from '../components/Map.vue'
 import { _isAuth, _logIn } from '../services/auth'
 
 export default {
@@ -48,7 +48,10 @@ export default {
       title: '',
       description: '',
       button: '',
-      loading: false
+      loading: false,
+      long: 0,
+      lat: 0,
+      locationReady: false
     }
   },
   setup () {
@@ -57,14 +60,23 @@ export default {
     }
   },
   components: {
-    LoadingCard,
-    Alert
+    Alert,
+    Map,
+    LoadingCard
+  },
+  mounted () {
+    this.getLocation()
   },
   methods: {
     login: function () {
       this.loading = true
       const name_ = this.username
       const pass_ = this.password
+
+      this.title = 'Logging In'
+      this.description = 'Hold on as we verify your user credentials'
+      this.button = '_LOADING_'
+      this.showAlert = true
 
       if (!name_ || !pass_) {
         this.title = 'Oops'
@@ -88,6 +100,22 @@ export default {
       this.description = 'You have entered an invalid username or password'
       this.button = 'Try again'
       this.showAlert = true
+    },
+    getLocation: function () {
+      navigator.geolocation.getCurrentPosition(this.successCallback, this.errorCallback, { enableHighAccuracy: true, timeout: 5000 })
+    },
+    successCallback: function (position) {
+      this.lat = position.coords.latitude
+      this.long = position.coords.longitude
+      setTimeout(() => {
+        this.locationReady = true
+      }, 1000)
+    },
+    errorCallback: function (error) {
+      this.showAlert = true
+      this.title = 'Error: ' + error.code
+      this.description = 'Unable to get device location. ' + error.message
+      this.button = 'Try again'
     }
   }
 }

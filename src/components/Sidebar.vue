@@ -2,7 +2,8 @@
   <div class="overlay w-100 position-fixed" @click="closeSidebar()" :class="state ? 'on' : 'off'"></div>
   <div id="sidebar" class="container" :class="state ? 'on' : 'off'">
     <ul class="p-0">
-      <li><router-link to="/" @click="closeSidebar()">Deliveries</router-link></li>
+      <li><router-link to="/" @click="closeSidebar()">My Deliveries</router-link></li>
+      <li><router-link to="/locator" @click="closeSidebar()">My Location</router-link></li>
     </ul>
   </div>
 </template>

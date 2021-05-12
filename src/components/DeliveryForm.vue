@@ -10,12 +10,12 @@
               <small class="text-secondary">Select Delivery Status</small><br>
               <select v-model="status" v-on:change="handleStatus()" class="form-control d-block w-100 mt-1 mb-2">
                 <option value="delivered">Delivered</option>
-                <option value="not-delivered">Not Delivered</option>
+                <option value="not-delivered">Failed</option>
               </select>
               <small v-if="status === 'delivered'" class="text-secondary" >Received By<br></small>
               <input v-if="status === 'delivered'" v-model="receivedby" type="text" class="form-control d-block w-100 mt-1 mb-2" placeholder="Package received by" />
               <small class="text-secondary">Date & Time</small><br>
-              <input v-model="dateTime" type="text" disabled class="form-control d-block w-100 mt-1 mb-2" :placeholder="dateTime" />
+              <input v-model="dateTime" type="text" disabled class="form-control d-block w-100 mt-1 mb-2 text-secondary fw-bold" :placeholder="dateTime" />
               <small class="text-secondary">Add Delivery Notes (optional)</small><br>
               <textarea v-model="notes" class="form-control d-block w-100 mt-1 mb-3"></textarea>
               <button v-if="status === 'delivered' && image" @click="requestCamera()" class="btn btn-sm px-4 py-3 my-3 d-block w-100 bg-secondary text-white">
@@ -53,7 +53,9 @@ export default {
       alertText: '',
       alertButton: '',
       dateTime: '',
-      shouldReload: false
+      shouldReload: false,
+      long: 0,
+      lat: 0
     }
   },
   props: {
@@ -110,9 +112,15 @@ export default {
         this.handleError('Delivery status can\'t be empty')
         return
       }
-      if (this.status === 'delivered' && !this.image) {
-        this.requestCamera()
-        return
+      if (this.status === 'delivered') {
+        if (this.lat === 0 || this.long === 0) {
+          this.getLocation()
+          return
+        }
+        if (!this.image) {
+          this.requestCamera()
+          return
+        }
       }
       if (this.status !== 'delivered') {
         this.receivedby = ''
@@ -174,6 +182,26 @@ export default {
         alert('The server can\'t handle your request. Please try again later.')
         location.reload()
       })
+    },
+    getLocation: function () {
+      this.showAlert = true
+      this.alertTitle = 'Getting location'
+      this.alertText = 'Please dont turn off the app. The app is checking your current location'
+      this.alertButton = '_LOADING_'
+      navigator.geolocation.getCurrentPosition(this.successCallback, this.errorCallback, { enableHighAccuracy: true, timeout: 5000 })
+    },
+    successCallback: function (position) {
+      this.lat = position.coords.latitude
+      this.long = position.coords.longitude
+      setTimeout(() => {
+        this.handleForm()
+      }, 1000)
+    },
+    errorCallback: function (error) {
+      this.showAlert = true
+      this.alertTitle = 'Error: ' + error.code
+      this.alertText = 'Unable to get device location. ' + error.message
+      this.alertButton = 'Try again'
     }
   }
 }
