@@ -96,6 +96,7 @@ export default {
       this.dateTime = moment(new Date()).format('MMM Do YYYY - hh:mm A')
     },
     setImage: function (imageData) {
+      this.showAlert = false
       this.image = imageData
     },
     handleError: function (message) {
