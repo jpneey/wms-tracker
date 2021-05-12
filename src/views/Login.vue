@@ -29,10 +29,12 @@
     </div>
   </div>
   <Alert v-if="showAlert" v-on:toggleAlert="this.showAlert = false;this.loading = false" :title="title" :text="description" :button="button" />
+  <Confirm v-if="showConfirm" v-on:yes="this.openSettings()" v-on:no="this.reload()" :title="title" :text="description" :yes="button" :no="'Reload'" />
 </template>
 
 <script>
 import LoadingCard from '../components/LoadingCard.vue'
+import Confirm from '../components/Confirm.vue'
 import Alert from '../components/Alert.vue'
 import router from '@/router'
 import Map from '../components/Map.vue'
@@ -45,6 +47,7 @@ export default {
       username: '',
       password: '',
       showAlert: false,
+      showConfirm: false,
       title: '',
       description: '',
       button: '',
@@ -62,7 +65,8 @@ export default {
   components: {
     Alert,
     Map,
-    LoadingCard
+    LoadingCard,
+    Confirm
   },
   mounted () {
     this.getLocation()
@@ -95,6 +99,9 @@ export default {
     loginSuccess: function () {
       location.reload()
     },
+    reload: function () {
+      window.location.reload()
+    },
     loginFail: function () {
       this.title = 'Authentication failed'
       this.description = 'You have entered an invalid username or password'
@@ -112,10 +119,14 @@ export default {
       }, 1000)
     },
     errorCallback: function (error) {
-      this.showAlert = true
+      this.showAlert = false
+      this.showConfirm = true
       this.title = 'Error: ' + error.code
       this.description = 'Unable to get device location. ' + error.message
-      this.button = 'Try again'
+      this.button = 'Settings'
+    },
+    openSettings: function () {
+      alert('asdasdsad')
     }
   }
 }
