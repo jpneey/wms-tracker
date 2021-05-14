@@ -54,8 +54,8 @@ export default {
       alertButton: '',
       dateTime: '',
       shouldReload: false,
-      long: 0,
-      lat: 0
+      long: 1,
+      lat: 1
     }
   },
   props: {
@@ -118,7 +118,7 @@ export default {
           this.handleError('`Received by field` can\'t be empty')
           return
         }
-        if (this.lat === 0 || this.long === 0) {
+        if (this.lat === 1 || this.long === 1) {
           this.getLocation()
           return
         }
@@ -150,7 +150,9 @@ export default {
         notes: this.notes,
         receivedby: this.receivedby,
         orderid: this.orderid,
-        userid: this.userid
+        userid: this.userid,
+        latitude: this.lat,
+        longitude: this.long
       }
 
       console.log(postData)
