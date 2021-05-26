@@ -152,10 +152,13 @@ export default {
         orderid: this.orderid,
         userid: this.userid,
         latitude: this.lat,
-        longitude: this.long
+        longitude: this.long,
+        datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       }
 
       console.log(postData)
+
+      alert(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
 
       const request = $.get({
         url: _.C.API_UPDATE,
