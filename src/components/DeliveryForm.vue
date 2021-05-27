@@ -115,7 +115,7 @@ export default {
       }
       if (this.status === 'delivered') {
         if (this.receivedby === '') {
-          this.handleError('`Received by field` can\'t be empty')
+          this.handleError('Received by field can\'t be empty')
           return
         }
         if (this.lat === 1 || this.long === 1) {
@@ -157,9 +157,6 @@ export default {
       }
 
       console.log(postData)
-
-      alert(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
-
       const request = $.get({
         url: _.C.API_UPDATE,
         method: 'post',

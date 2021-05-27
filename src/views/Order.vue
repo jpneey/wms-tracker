@@ -23,8 +23,18 @@
           <p class="mt-1 mb-4 text-secondary">{{ items[0].customer_address }}</p>
           <p class="text-small">
             <small :class="footerClass(items[0].tracking_status)">{{ footerActionText(items[0].tracking_status) }}</small>
-            <small class="ms-1" :class="delayClass(getDelay(items[0].ship_date))">{{ getDelay(items[0].ship_date) }} day(s) delayed</small>
+            <small class="ms-1" :class="delayClass(getDelay(items[0].ship_date))">{{ getDelay(items[0].ship_date) }} delayed</small>
           </p>
+        </div>
+      </div>
+    </div>
+    <div v-if="failed" class="d-block w-100 container bg-white position-relative overflow-x-hidden border-bottom text-small">
+      <div class="row">
+        <div class="col col-12">
+          <div class="my-3 d-block w-100 position-relative">
+            <span class="text-secondary">Delivery Comment:</span><br>
+            <span>{{ items[0].comments || 'N/A' }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -111,7 +121,8 @@ export default {
   props: ['orderid'],
   data () {
     return {
-      deliver: false
+      deliver: false,
+      failed: false
     }
   },
   components: {
@@ -173,14 +184,16 @@ export default {
       switch (type) {
         case 'failed':
           text = 'Failed'
+          this.failed = true
           break
       }
       return text
     },
     getDelay (shipDate) {
-      var main = moment(shipDate, 'YYYY MM DD')
-      var today = moment()
-      return today.diff(main, 'days')
+      const main = moment(shipDate, 'YYYY MM DD')
+      const today = moment()
+      const day = today.diff(main)
+      return moment.duration(day).humanize(false, { d: 7, w: 4, m: 31, y: 365 })
     },
     delayClass (type) {
       var className = 'd-none'

@@ -12,18 +12,13 @@
     <router-link :to="'/order/' + item.slip_id" class="text-decoration-none">
       <div class="pt-3 pb-0 d-block w-100 bg-white item mb-3 orders enter">
         <div class="row border-bottom">
-          <div class="col col-5 px-4">
-            <p class="mb-0 text-uppercase sub-text text-body">#{{ item.slip_no }}</p>
-          </div>
-          <div class="col col-7 text-end px-4">
-            <p class="mb-0 sub-text fw-normal">
-              <small class="" :class="footerClass(item.tracking_status)">{{ footerActionText(item.tracking_status) }}</small>
-            </p>
+          <div class="col col-12 px-4">
+            <p class="mb-0 sub-text text-body"><small class="fw-normal me-3" :class="footerClass(item.tracking_status)">{{ footerActionText(item.tracking_status) }}</small> #{{ item.slip_no }}</p>
           </div>
           <div class="col col-12 px-4 mt-2">
             <p class="mt-2 mb-3 text-small">
               <span>{{ formatDate(item.ship_date) }}</span>
-              <small class="ms-1" :class="delayClass(getDelay(item.ship_date))">&mdash;<b>{{ getDelay(item.ship_date) }} day(s) delayed</b></small>
+              <small class="ms-1" :class="delayClass(getDelay(item.ship_date))">&mdash;&nbsp;<b>{{ getDelay(item.ship_date) }} delayed</b></small>
               <span class="text-secondary ps-2">{{ item.customer_address || 'No data available' }}</span>
             </p>
           </div>
@@ -90,9 +85,10 @@ export default {
       return className
     },
     getDelay (shipDate) {
-      var main = moment(shipDate, 'YYYY MM DD')
-      var today = moment()
-      return today.diff(main, 'days')
+      const date = moment(shipDate, 'YYYY MM DD')
+      const today = moment()
+      const day = today.diff(date)
+      return moment.duration(day).humanize(false, { d: 7, w: 4, m: 31, y: 365 })
     },
     delayClass (type) {
       var className = 'd-none'
