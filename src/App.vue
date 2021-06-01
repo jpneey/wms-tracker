@@ -2,7 +2,7 @@
   <div class="position-fixed nav d-block w-100 border-bottom shadow-sm container bg-white">
     <div id="nav" class="row row-cols-3 m-0">
       <div class="col">
-        <span @click="toggleSidebar()" class="text-decoration-none material-icons align-middle abs-centered abs-left">menu</span>
+        <router-link to="/home" class="text-decoration-none material-icons align-middle abs-centered abs-left">apps</router-link>
       </div>
       <div class="col text-center">
         <span class="page-title abs-centered">{{ renderTitle }}</span>
